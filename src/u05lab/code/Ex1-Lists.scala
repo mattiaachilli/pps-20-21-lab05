@@ -1,4 +1,4 @@
-package u04lab.code
+package u05lab.code
 
 import scala.annotation.tailrec
 import scala.language.postfixOps // silence warnings
@@ -64,11 +64,11 @@ object :: {
 trait ListImplementation[A] extends List[A] {
 
   override def head: Option[A] = this match {
-    case h :: t => Some(h)
+    case h :: _ => Some(h)
     case _ => None
   }
   override def tail: Option[List[A]] = this match {
-    case h :: t => Some(t)
+    case _ :: t => Some(t)
     case _ => None
   }
   override def append(list: List[A]): List[A] = this match {
@@ -80,8 +80,8 @@ trait ListImplementation[A] extends List[A] {
     case _ => None
   }
   override def get(pos: Int): Option[A] = this match {
-    case h :: t if pos == 0 => Some(h)
-    case h :: t if pos > 0 => t get (pos-1)
+    case h :: _ if pos == 0 => Some(h)
+    case _ :: t if pos > 0 => t get (pos-1)
     case _ => None
   }
   override def filter(predicate: (A) => Boolean): List[A] = this match {
@@ -115,7 +115,14 @@ trait ListImplementation[A] extends List[A] {
     case Nil() => Nil()
   }
 
-  override def zipRight: List[(A,Int)] = ??? // questions: what is the type of keyword ???
+  override def zipRight: List[(A,Int)] = {
+    @tailrec
+    def _zipRight(l: List[A], k: Int, res: List[(A, Int)]): List[(A, Int)] = l match {
+      case h :: t => _zipRight(t, k + 1, (h, k) :: res)
+      case _ => res
+    }
+    _zipRight(this, 0, List.nil).reverse()
+  }
 
   override def partition(pred: A => Boolean): (List[A],List[A]) = ???
 

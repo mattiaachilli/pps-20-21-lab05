@@ -133,12 +133,16 @@ trait ListImplementation[A] extends List[A] {
     (filter(pred), filter(a => !pred(a)))
   }*/
 
-  override def partition(pred: A => Boolean): (List[A], List[A]) = this.foldLeft((List[A](),List[A]())) ((acc,h)=> (acc, pred(h)) match {
+  override def partition(pred: A => Boolean): (List[A], List[A]) = this.foldLeft((List[A](),List[A]())) ((acc, h)=> (acc, pred(h)) match {
     case ((a, b), true) => (a.append(h :: Nil()), b)
     case ((a, b), false) => (a, b.append(h:: Nil()))
   })
 
-  override def span(pred: A => Boolean): (List[A],List[A]) = ???
+  override def span(pred: A => Boolean): (List[A],List[A]) = this.foldLeft((List[A](),List[A]())) ((acc, h)=> (acc, pred(h)) match {
+    case ((a, hb :: tb), _) => (a, hb :: tb.append(h :: Nil()))
+    case ((a, Nil()), true) => (a.append(h :: Nil()), Nil())
+    case ((a, Nil()), false) => (a, h :: Nil())
+  })
 
   /**
     *

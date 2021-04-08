@@ -12,4 +12,16 @@ class ListTest {
     assertEquals(List.nil, List.nil.zipRight)
     assertEquals(List(("a", 0), ("b", 1), ("c", 2)), l.zipRight)
   }
+
+  @Test
+  def testPartition(): Unit = {
+    val l = 10 :: 20 :: 30 :: 40 :: Nil()
+    assertEquals((Cons(20,Cons(30,Cons(40,Nil()))), Cons(10,Nil())), l.partition(_ > 15))
+  }
+
+  @Test
+  def testSpan(): Unit = {
+    val l = 10 :: 20 :: 30 :: 40 :: Nil()
+    assertEquals((Nil(), Cons(10,Cons(20,Cons(30,Cons(40,Nil()))))), l.span(_ > 15))
+  }
 }

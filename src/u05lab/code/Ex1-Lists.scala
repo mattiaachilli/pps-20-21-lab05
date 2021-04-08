@@ -37,6 +37,8 @@ sealed trait List[A] {
 
   def reduce(op: (A,A)=>A): A
 
+  def length(): Int
+
   def takeRight(n: Int): List[A]
 
   // right-associative construction: 10 :: 20 :: 30 :: Nil()
@@ -149,6 +151,16 @@ trait ListImplementation[A] extends List[A] {
     *
     * @throws UnsupportedOperationException if the list is empty
     */
+
+    override def length(): Int = {
+      def _length(l: List[A], n: Int): Int = l match {
+        case h :: Nil() => n
+        case h :: t => _length(t, n + 1)
+        case Nil() => 0
+      }
+      _length(this, 1)
+    }
+
 
   override def reduce(op: (A,A)=>A): A = this match {
     case h :: Nil() => h

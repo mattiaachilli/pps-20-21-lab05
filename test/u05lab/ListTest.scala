@@ -26,6 +26,13 @@ class ListTest {
   }
 
   @Test
+  def testLength(): Unit = {
+    val l = 10 :: 20 :: 30 :: 40 :: Nil()
+    assertEquals(4, l.length())
+    assertEquals(0, Nil().length())
+  }
+
+  @Test
   def testReduce(): Unit = {
     val l = 10 :: 20 :: 30 :: 40 :: Nil()
     assertEquals(100, l.reduce(_+_))

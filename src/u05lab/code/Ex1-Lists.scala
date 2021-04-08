@@ -85,7 +85,7 @@ trait ListImplementation[A] extends List[A] {
     case _ => None
   }
   override def filter(predicate: (A) => Boolean): List[A] = this match {
-    case h :: t if (predicate(h)) => h :: (t filter predicate)
+    case h :: t if predicate(h) => h :: (t filter predicate)
     case _ :: t => (t filter predicate)
     case _ => Nil()
   }
@@ -116,15 +116,27 @@ trait ListImplementation[A] extends List[A] {
   }
 
   override def zipRight: List[(A,Int)] = {
-    @tailrec
+    /*@tailrec
     def _zipRight(l: List[A], k: Int, res: List[(A, Int)]): List[(A, Int)] = l match {
       case h :: t => _zipRight(t, k + 1, (h, k) :: res)
       case _ => res
     }
-    _zipRight(this, 0, List.nil).reverse()
+    _zipRight(this, 0, List.nil).reverse()*/
+
+    //var i = -1; map((_, { i += 1; i }))
+
+    val i = Iterator.from(0)
+    this.map((_ ,i.next))
   }
 
-  override def partition(pred: A => Boolean): (List[A],List[A]) = ???
+  /*override def partition(pred: A => Boolean): (List[A], List[A]) = {
+    (filter(pred), filter(a => !pred(a)))
+  }*/
+
+  override def partition(pred: A => Boolean): (List[A], List[A]) = this.foldLeft((List[A](),List[A]())) ((acc,h)=> (acc, pred(h)) match {
+    case ((a, b), true) => (a.append(h :: Nil()), b)
+    case ((a, b), false) => (a, b.append(h:: Nil()))
+  })
 
   override def span(pred: A => Boolean): (List[A],List[A]) = ???
 

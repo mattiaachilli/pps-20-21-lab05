@@ -153,9 +153,10 @@ trait ListImplementation[A] extends List[A] {
     */
 
     override def length(): Int = {
+      @tailrec
       def _length(l: List[A], n: Int): Int = l match {
-        case h :: Nil() => n
-        case h :: t => _length(t, n + 1)
+        case _ :: Nil() => n
+        case _ :: t => _length(t, n + 1)
         case Nil() => 0
       }
       _length(this, 1)
@@ -168,7 +169,10 @@ trait ListImplementation[A] extends List[A] {
     case Nil() => throw new UnsupportedOperationException()
   }
 
-  override def takeRight(n: Int): List[A] = ???
+  override def takeRight(n: Int): List[A] = this.reverse() match {
+    case h :: t if n > 0 => t.reverse().takeRight(n - 1) append (h :: Nil())
+    case _ => Nil()
+  }
 }
 
 // Factories

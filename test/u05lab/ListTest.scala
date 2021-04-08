@@ -37,4 +37,10 @@ class ListTest {
     val l = 10 :: 20 :: 30 :: 40 :: Nil()
     assertEquals(100, l.reduce(_+_))
   }
+
+  @Test
+  def testTakeRight(): Unit = {
+    val l = 10 :: 20 :: 30 :: 40 :: Nil()
+    assertEquals(Cons(30, Cons(40, Nil())), l.takeRight(2))
+  }
 }

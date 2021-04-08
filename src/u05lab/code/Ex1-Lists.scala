@@ -41,6 +41,8 @@ sealed trait List[A] {
 
   def takeRight(n: Int): List[A]
 
+  def collect[B](f: PartialFunction[A, B]): List[B]
+
   // right-associative construction: 10 :: 20 :: 30 :: Nil()
   def ::(head: A): List[A] = Cons(head,this)
 }
@@ -173,7 +175,14 @@ trait ListImplementation[A] extends List[A] {
     case h :: t if n > 0 => t.reverse().takeRight(n - 1) append (h :: Nil())
     case _ => Nil()
   }
+
+  override def collect[B](f: PartialFunction[A, B]): List[B] = this match {
+    case h :: t if f.isDefinedAt(h) => f(h) :: t.collect(f)
+    case _ :: t => t.collect(f)
+    case _ => Nil()
+  }
 }
+
 
 // Factories
 object List {

@@ -43,4 +43,10 @@ class ListTest {
     val l = 10 :: 20 :: 30 :: 40 :: Nil()
     assertEquals(Cons(30, Cons(40, Nil())), l.takeRight(2))
   }
+
+  @Test
+  def testCollect(): Unit = {
+    val l = 10 :: 20 :: 30 :: 40 :: Nil()
+    assertEquals(Cons(9, Cons(39, Nil())), l.collect({ case x if x < 15 || x > 35 => x-1 }))
+  }
 }

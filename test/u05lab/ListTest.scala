@@ -24,4 +24,10 @@ class ListTest {
     val l = 10 :: 20 :: 30 :: 40 :: Nil()
     assertEquals((Nil(), Cons(10,Cons(20,Cons(30,Cons(40,Nil()))))), l.span(_ > 15))
   }
+
+  @Test
+  def testReduce(): Unit = {
+    val l = 10 :: 20 :: 30 :: 40 :: Nil()
+    assertEquals(100, l.reduce(_+_))
+  }
 }

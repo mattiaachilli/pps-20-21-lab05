@@ -46,7 +46,8 @@ sealed trait List[A] {
 // defining concrete implementations based on the same template
 
 case class Cons[A](_head: A, _tail: List[A])
-  extends ListImplementation[A]
+  extends ListImplementation[A] {
+}
 
 case class Nil[A]()
   extends ListImplementation[A]
@@ -148,7 +149,12 @@ trait ListImplementation[A] extends List[A] {
     *
     * @throws UnsupportedOperationException if the list is empty
     */
-  override def reduce(op: (A,A)=>A): A = ???
+
+  override def reduce(op: (A,A)=>A): A = this match {
+    case h :: Nil() => h
+    case h :: t => op(h, t.reduce(op))
+    case Nil() => throw new UnsupportedOperationException()
+  }
 
   override def takeRight(n: Int): List[A] = ???
 }

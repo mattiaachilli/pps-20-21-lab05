@@ -37,4 +37,9 @@ class ExamsManagerTest {
       examsManager.getResultsMapFromStudent("Rossi"))
   }
 
+  @Test def testGetBestResultFromStudent(): Unit = {
+    setupExams()
+    assertEquals(Some(30), examsManager.getBestResultFromStudent("Achilli"))
+  }
+
 }

@@ -23,5 +23,10 @@ class ExamsManagerTest {
     assertThrows(classOf[IllegalArgumentException], () => examsManager.getAllStudentsFromCall("March"))
   }
 
+  @Test def testGetEvaluationsMapFromCall(): Unit = {
+    setupExams()
+    assertEquals(Map("Achilli" -> 30), examsManager.getEvaluationsMapFromCall("January"))
+    assertEquals(Map("Rossi" -> 20), examsManager.getEvaluationsMapFromCall("February"))
+  }
 
 }

@@ -29,4 +29,12 @@ class ExamsManagerTest {
     assertEquals(Map("Rossi" -> 20), examsManager.getEvaluationsMapFromCall("February"))
   }
 
+  @Test def testGetResultMapFromStudent(): Unit = {
+    setupExams()
+    assertEquals(Map("January" -> ExamResult.succeededCumLaude.toString, "February" -> ExamResult.retired.toString),
+      examsManager.getResultsMapFromStudent("Achilli"))
+    assertEquals(Map("January" -> ExamResult.failed.toString, "February" -> ExamResult.succeeded(20).toString),
+      examsManager.getResultsMapFromStudent("Rossi"))
+  }
+
 }

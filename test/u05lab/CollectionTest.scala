@@ -32,9 +32,17 @@ class CollectionTest {
   @Test def performanceSet(): Unit = {
     val immutableSet: Set[Int] = Set(10 ,20 ,30 ,40 ,50)
     val mutableSet: collection.mutable.Set[Int] = collection.mutable.Set(10 ,20 ,30 ,40 ,50)
-
     assert(measure("Immutable set add")(immutableSet.+(60)) > measure("Mutable set add")(mutableSet.+=(60)))
     assert(measure("Immutable set delete")(immutableSet.-(60)) < measure("Mutable set delete")(mutableSet.-=(60)))
     assert(measure("Immutable set contains")(immutableSet.contains(60)) < measure("Mutable set contains")(mutableSet.contains(60)))
+  }
+
+  @Test def performanceMap(): Unit = {
+    val immutableMap: Map[Int, String] = Map(10 -> "a" ,20 -> "b" ,30 -> "c")
+    val mutableMap: collection.mutable.Map[Int, String] = collection.mutable.Map(10 -> "a" ,20 -> "b" ,30 -> "c")
+    assert(measure("Immutable map add")(immutableMap.+(40 -> "d" )) > measure("Mutable map add")(mutableMap.+(40 -> "d")))
+    assert(measure("Immutable map size")(immutableMap.size) < measure("Mutable map size")(mutableMap.size))
+    assert(measure("Immutable map get")(immutableMap.get(10)) < measure("Mutable map get")(mutableMap.get(10)))
+    assert(measure("Immutable map delete")(immutableMap.-(10)) < measure("Mutable map delete")(mutableMap.-(10)))
   }
 }
